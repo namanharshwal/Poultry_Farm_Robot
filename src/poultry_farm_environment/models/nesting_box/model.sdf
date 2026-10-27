@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<sdf version="1.8">
+  <model name="nesting_box">
+    <static>true</static>
+    <link name="link">
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://nesting_box/meshes/nesting_box.obj</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <collision name="collision">
+        <pose>0 0 0.45 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>1.60 0.65 0.90</size>
+          </box>
+        </geometry>
+      </collision>
+    </link>
+  </model>
+</sdf>

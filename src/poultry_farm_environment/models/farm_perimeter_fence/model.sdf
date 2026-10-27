@@ -1,0 +1,35 @@
+<?xml version="1.0" ?>
+<sdf version="1.8">
+  <model name="farm_perimeter_fence">
+    <static>true</static>
+    <link name="link">
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://farm_perimeter_fence/meshes/farm_perimeter_fence.obj</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <collision name="collision_south">
+        <pose>0 -15.0 0.90 0 0 0</pose>
+        <geometry><box><size>42.0 0.15 1.80</size></box></geometry>
+      </collision>
+      <collision name="collision_north">
+        <pose>0 27.0 0.90 0 0 0</pose>
+        <geometry><box><size>42.0 0.15 1.80</size></box></geometry>
+      </collision>
+      <collision name="collision_east">
+        <pose>21.0 6.0 0.90 0 0 0</pose>
+        <geometry><box><size>0.15 42.0 1.80</size></box></geometry>
+      </collision>
+      <collision name="collision_west_s">
+        <pose>-21.0 -5.1 0.90 0 0 0</pose>
+        <geometry><box><size>0.15 19.8 1.80</size></box></geometry>
+      </collision>
+      <collision name="collision_west_n">
+        <pose>-21.0 19.1 0.90 0 0 0</pose>
+        <geometry><box><size>0.15 15.8 1.80</size></box></geometry>
+      </collision>
+    </link>
+  </model>
+</sdf>

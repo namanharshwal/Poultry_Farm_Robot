@@ -1,0 +1,711 @@
+<?xml version="1.0" ?>
+<sdf version="1.8">
+  <world name="poultry_farm">
+    <!-- Physics Settings -->
+    <physics name="1ms" type="ode">
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+      <real_time_update_rate>1000</real_time_update_rate>
+      <ode>
+        <solver><type>quick</type><iters>50</iters><sor>1.3</sor></solver>
+        <constraints><cfm>0.00001</cfm><erp>0.2</erp><contact_max_correcting_vel>100.0</contact_max_correcting_vel><contact_surface_layer>0.001</contact_surface_layer></constraints>
+      </ode>
+    </physics>
+
+    <!-- Gazebo Sim Essential Systems -->
+    <plugin filename="gz-sim-physics-system" name="gz::sim::systems::Physics"/>
+    <plugin filename="gz-sim-user-commands-system" name="gz::sim::systems::UserCommands"/>
+    <plugin filename="gz-sim-scene-broadcaster-system" name="gz::sim::systems::SceneBroadcaster"/>
+    <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors"><render_engine>ogre2</render_engine></plugin>
+    <plugin filename="gz-sim-contact-system" name="gz::sim::systems::Contact"/>
+
+    <!-- Scene & Atmosphere with Sky and Clouds -->
+    <scene>
+      <ambient>0.68 0.66 0.62 1.0</ambient>
+      <background>0.55 0.75 0.95 1.0</background>
+      <shadows>true</shadows>
+      <grid>false</grid>
+      <sky>
+        <time>12.0</time>
+        <sunrise>6.0</sunrise>
+        <sunset>18.0</sunset>
+        <clouds>
+          <speed>0.8</speed>
+          <direction>1.0 0.0</direction>
+          <humidity>0.6</humidity>
+          <mean_size>0.5</mean_size>
+          <ambient>0.8 0.8 0.8 1.0</ambient>
+        </clouds>
+      </sky>
+    </scene>
+
+    <!-- GUI Camera Configuration with Far Clipping Plane -->
+    <gui fullscreen="0">
+      <camera name="user_camera">
+        <pose>-25.8 8.2 5.1 0 0.12 -0.05</pose>
+        <view_controller>orbit</view_controller>
+        <projection_type>perspective</projection_type>
+        <clip>
+          <near>0.1</near>
+          <far>1000.0</far>
+        </clip>
+      </camera>
+    </gui>
+
+    <!-- Radiant Glowing Sun in the Sky with Clouds -->
+    <include>
+      <name>sun_radiant</name>
+      <uri>model://sun_radiant</uri>
+      <pose>-32.0 54.0 64.0 0 0 0</pose>
+    </include>
+
+    <!-- Natural Directional Sunlight aligned with Radiant Sun -->
+    <light type="directional" name="sun">
+      <cast_shadows>true</cast_shadows>
+      <pose>-32.0 54.0 64.0 0 0 0</pose>
+      <diffuse>0.98 0.95 0.88 1</diffuse>
+      <specular>0.4 0.4 0.4 1</specular>
+      <attenuation><range>1000</range><constant>0.9</constant><linear>0.01</linear><quadratic>0.001</quadratic></attenuation>
+      <direction>0.3714 -0.5571 -0.7428</direction>
+    </light>
+
+    <!-- Spotlight illuminating the Roman Named Signboard at the Front Gate -->
+    <light type="spot" name="entrance_sign_spotlight">
+      <cast_shadows>false</cast_shadows>
+      <pose>-24.5 8.0 5.2 0 0.45 0</pose>
+      <diffuse>1.0 0.96 0.82 1</diffuse>
+      <specular>0.5 0.5 0.4 1</specular>
+      <direction>1.0 0.0 -0.45</direction>
+      <attenuation><range>16.0</range><constant>0.2</constant><linear>0.08</linear><quadratic>0.02</quadratic></attenuation>
+      <spot><inner_angle>0.6</inner_angle><outer_angle>1.1</outer_angle><falloff>1.0</falloff></spot>
+    </light>
+
+    <!-- Interior Lighting: Tunnel Barn 1 (Floor House, Y = 0) -->
+    <light type="point" name="tunnel1_light_1">
+      <cast_shadows>false</cast_shadows>
+      <pose>-8.0 -2.0 3.2 0 0 0</pose>
+      <diffuse>0.85 0.82 0.70 1</diffuse>
+      <specular>0.2 0.2 0.15 1</specular>
+      <attenuation><range>12.0</range><constant>0.2</constant><linear>0.15</linear><quadratic>0.05</quadratic></attenuation>
+    </light>
+    <light type="point" name="tunnel1_light_2">
+      <cast_shadows>false</cast_shadows>
+      <pose>-8.0 2.0 3.2 0 0 0</pose>
+      <diffuse>0.85 0.82 0.70 1</diffuse>
+      <specular>0.2 0.2 0.15 1</specular>
+      <attenuation><range>12.0</range><constant>0.2</constant><linear>0.15</linear><quadratic>0.05</quadratic></attenuation>
+    </light>
+    <light type="point" name="tunnel1_light_3">
+      <cast_shadows>false</cast_shadows>
+      <pose>-3.0 -2.0 3.2 0 0 0</pose>
+      <diffuse>0.85 0.82 0.70 1</diffuse>
+      <specular>0.2 0.2 0.15 1</specular>
+      <attenuation><range>12.0</range><constant>0.2</constant><linear>0.15</linear><quadratic>0.05</quadratic></attenuation>
+    </light>
+    <light type="point" name="tunnel1_light_4">
+      <cast_shadows>false</cast_shadows>
+      <pose>-3.0 2.0 3.2 0 0 0</pose>
+      <diffuse>0.85 0.82 0.70 1</diffuse>
+      <specular>0.2 0.2 0.15 1</specular>
+      <attenuation><range>12.0</range><constant>0.2</constant><linear>0.15</linear><quadratic>0.05</quadratic></attenuation>
+    </light>
+    <light type="point" name="tunnel1_light_5">
+      <cast_shadows>false</cast_shadows>
+      <pose>3.0 -2.0 3.2 0 0 0</pose>
+      <diffuse>0.85 0.82 0.70 1</diffuse>
+      <specular>0.2 0.2 0.15 1</specular>
+      <attenuation><range>12.0</range><constant>0.2</constant><linear>0.15</linear><quadratic>0.05</quadratic></attenuation>
+    </light>
+    <light type="point" name="tunnel1_light_6">
+      <cast_shadows>false</cast_shadows>
+      <pose>3.0 2.0 3.2 0 0 0</pose>
+      <diffuse>0.85 0.82 0.70 1</diffuse>
+      <specular>0.2 0.2 0.15 1</specular>
+      <attenuation><range>12.0</range><constant>0.2</constant><linear>0.15</linear><quadratic>0.05</quadratic></attenuation>
+    </light>
+    <light type="point" name="tunnel1_light_7">
+      <cast_shadows>false</cast_shadows>
+      <pose>8.0 -2.0 3.2 0 0 0</pose>
+      <diffuse>0.85 0.82 0.70 1</diffuse>
+      <specular>0.2 0.2 0.15 1</specular>
+      <attenuation><range>12.0</range><constant>0.2</constant><linear>0.15</linear><quadratic>0.05</quadratic></attenuation>
+    </light>
+    <light type="point" name="tunnel1_light_8">
+      <cast_shadows>false</cast_shadows>
+      <pose>8.0 2.0 3.2 0 0 0</pose>
+      <diffuse>0.85 0.82 0.70 1</diffuse>
+      <specular>0.2 0.2 0.15 1</specular>
+      <attenuation><range>12.0</range><constant>0.2</constant><linear>0.15</linear><quadratic>0.05</quadratic></attenuation>
+    </light>
+
+    <!-- Interior Lighting: Tunnel Barn 2 (5-Tier Layer House, Y = 16) -->
+    <light type="point" name="tunnel2_light_1">
+      <cast_shadows>false</cast_shadows>
+      <pose>-8.0 14.0 3.4 0 0 0</pose>
+      <diffuse>0.90 0.88 0.78 1</diffuse>
+      <specular>0.2 0.2 0.15 1</specular>
+      <attenuation><range>14.0</range><constant>0.2</constant><linear>0.12</linear><quadratic>0.04</quadratic></attenuation>
+    </light>
+    <light type="point" name="tunnel2_light_2">
+      <cast_shadows>false</cast_shadows>
+      <pose>-8.0 18.0 3.4 0 0 0</pose>
+      <diffuse>0.90 0.88 0.78 1</diffuse>
+      <specular>0.2 0.2 0.15 1</specular>
+      <attenuation><range>14.0</range><constant>0.2</constant><linear>0.12</linear><quadratic>0.04</quadratic></attenuation>
+    </light>
+    <light type="point" name="tunnel2_light_3">
+      <cast_shadows>false</cast_shadows>
+      <pose>-3.0 14.0 3.4 0 0 0</pose>
+      <diffuse>0.90 0.88 0.78 1</diffuse>
+      <specular>0.2 0.2 0.15 1</specular>
+      <attenuation><range>14.0</range><constant>0.2</constant><linear>0.12</linear><quadratic>0.04</quadratic></attenuation>
+    </light>
+    <light type="point" name="tunnel2_light_4">
+      <cast_shadows>false</cast_shadows>
+      <pose>-3.0 18.0 3.4 0 0 0</pose>
+      <diffuse>0.90 0.88 0.78 1</diffuse>
+      <specular>0.2 0.2 0.15 1</specular>
+      <attenuation><range>14.0</range><constant>0.2</constant><linear>0.12</linear><quadratic>0.04</quadratic></attenuation>
+    </light>
+    <light type="point" name="tunnel2_light_5">
+      <cast_shadows>false</cast_shadows>
+      <pose>3.0 14.0 3.4 0 0 0</pose>
+      <diffuse>0.90 0.88 0.78 1</diffuse>
+      <specular>0.2 0.2 0.15 1</specular>
+      <attenuation><range>14.0</range><constant>0.2</constant><linear>0.12</linear><quadratic>0.04</quadratic></attenuation>
+    </light>
+    <light type="point" name="tunnel2_light_6">
+      <cast_shadows>false</cast_shadows>
+      <pose>3.0 18.0 3.4 0 0 0</pose>
+      <diffuse>0.90 0.88 0.78 1</diffuse>
+      <specular>0.2 0.2 0.15 1</specular>
+      <attenuation><range>14.0</range><constant>0.2</constant><linear>0.12</linear><quadratic>0.04</quadratic></attenuation>
+    </light>
+    <light type="point" name="tunnel2_light_7">
+      <cast_shadows>false</cast_shadows>
+      <pose>8.0 14.0 3.4 0 0 0</pose>
+      <diffuse>0.90 0.88 0.78 1</diffuse>
+      <specular>0.2 0.2 0.15 1</specular>
+      <attenuation><range>14.0</range><constant>0.2</constant><linear>0.12</linear><quadratic>0.04</quadratic></attenuation>
+    </light>
+    <light type="point" name="tunnel2_light_8">
+      <cast_shadows>false</cast_shadows>
+      <pose>8.0 18.0 3.4 0 0 0</pose>
+      <diffuse>0.90 0.88 0.78 1</diffuse>
+      <specular>0.2 0.2 0.15 1</specular>
+      <attenuation><range>14.0</range><constant>0.2</constant><linear>0.12</linear><quadratic>0.04</quadratic></attenuation>
+    </light>
+
+    <!-- Spot Lighting for Egg Separation Mill Station -->
+    <light type="point" name="egg_mill_spotlight">
+      <cast_shadows>false</cast_shadows>
+      <pose>-9.8 16.0 3.0 0 0 0</pose>
+      <diffuse>1.0 1.0 0.95 1</diffuse>
+      <specular>0.4 0.4 0.4 1</specular>
+      <attenuation><range>8.0</range><constant>0.2</constant><linear>0.1</linear><quadratic>0.03</quadratic></attenuation>
+    </light>
+
+    <!-- Master Ground Plane -->
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision"><geometry><plane><normal>0 0 1</normal><size>140 140</size></plane></geometry><surface><friction><ode><mu>100</mu><mu2>50</mu2></ode></friction></surface></collision>
+        <visual name="visual"><geometry><plane><normal>0 0 1</normal><size>140 140</size></plane></geometry><material><ambient>0.5 0.6 0.4 1</ambient><diffuse>0.5 0.6 0.4 1</diffuse><pbr><metal><albedo_map>model://poultry_farm_world/materials/textures/grass_pasture.png</albedo_map></metal></pbr></material></visual>
+      </link>
+    </model>
+
+    <!-- Connecting Service Roadway -->
+    <model name="inter_tunnel_service_road">
+      <static>true</static><pose>0 8.0 0.015 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>30.0 6.0 0.03</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>30.0 6.0 0.03</size></box></geometry><material><ambient>0.75 0.75 0.75 1</ambient><diffuse>0.75 0.75 0.75 1</diffuse><pbr><metal><albedo_map>model://poultry_farm_world/materials/textures/concrete_floor.png</albedo_map></metal></pbr></material></visual>
+      </link>
+    </model>
+
+    <!-- Front Logistics Apron -->
+    <model name="front_logistics_apron">
+      <static>true</static><pose>-15.5 8.0 0.015 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>12.0 24.0 0.03</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>12.0 24.0 0.03</size></box></geometry><material><ambient>0.70 0.70 0.70 1</ambient><diffuse>0.70 0.70 0.70 1</diffuse><pbr><metal><albedo_map>model://poultry_farm_world/materials/textures/concrete_floor.png</albedo_map></metal></pbr></material></visual>
+      </link>
+    </model>
+
+    <!-- Outer Driveway Approach Road (Connecting Gate to Apron) -->
+    <model name="driveway_approach_road">
+      <static>true</static><pose>-24.0 8.0 0.012 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>8.0 6.0 0.024</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>8.0 6.0 0.024</size></box></geometry><material><ambient>0.65 0.65 0.65 1</ambient><diffuse>0.68 0.68 0.68 1</diffuse><pbr><metal><albedo_map>model://poultry_farm_world/materials/textures/concrete_floor.png</albedo_map></metal></pbr></material></visual>
+      </link>
+    </model>
+
+    <!-- ================================================================= -->
+    <!-- PERIMETER FARM FENCING & FRONT ENTRANCE GATE                     -->
+    <!-- ================================================================= -->
+    <!-- Continuous boundary fencing enclosing X:[-21, +21], Y:[-15, +27] -->
+    <include>
+      <name>farm_perimeter_fence</name>
+      <uri>model://farm_perimeter_fence</uri>
+      <pose>0 0 0 0 0 0</pose>
+    </include>
+
+    <!-- Grand Front Entrance Gate with Roman Named Signboard ("POULTRY FARM") -->
+    <include>
+      <name>farm_front_entrance_gate</name>
+      <uri>model://farm_entrance_gate</uri>
+      <pose>-21.0 8.0 0 0 0 0</pose>
+    </include>
+
+    <!-- ================================================================= -->
+    <!-- POULTRY FARM WORKERS (OUTER GARDEN, PADDOCK & LOGISTICS)        -->
+    <!-- ================================================================= -->
+    <!-- 1. Farm Supervisor: Standing on logistics apron near entrance gate -->
+    <include>
+      <name>worker_supervisor</name>
+      <uri>model://farm_worker_supervisor</uri>
+      <pose>-17.5 8.0 0 0 0 0</pose>
+    </include>
+
+    <!-- 2. Caretaker 1: In the outer south garden / paddock watching free-range hens -->
+    <include>
+      <name>worker_caretaker_paddock</name>
+      <uri>model://farm_worker_caretaker</uri>
+      <pose>-2.5 -8.0 0 0 0 1.2</pose>
+    </include>
+
+    <!-- 3. Caretaker 2: In outer grass garden near east paddock boundary -->
+    <include>
+      <name>worker_caretaker_garden</name>
+      <uri>model://farm_worker_caretaker</uri>
+      <pose>3.5 -7.0 0 0 0 -1.8</pose>
+    </include>
+
+    <!-- 4. Logistics Operator 1: Near bulk feed storage silos -->
+    <include>
+      <name>worker_silo_operator</name>
+      <uri>model://farm_worker_logistics</uri>
+      <pose>-15.2 -2.5 0 0 0 1.57</pose>
+    </include>
+
+    <!-- 5. Logistics Operator 2: Outside Egg Separation Mill loading dock -->
+    <include>
+      <name>worker_mill_operator</name>
+      <uri>model://farm_worker_logistics</uri>
+      <pose>-12.8 16.5 0 0 0 -0.5</pose>
+    </include>
+
+    <!-- ================================================================= -->
+    <!-- TUNNEL BARN 1: FLOOR HOUSING / BROILER & FREE-RANGE FLOCK         -->
+    <!-- ================================================================= -->
+    <include><name>poultry_barn_tunnel_1</name><uri>model://poultry_barn</uri><pose>0 0 0 0 0 0</pose></include>
+    <model name="tunnel1_bedding_floor"><static>true</static><pose>0 0 0.01 0 0 0</pose><link name="link"><collision name="collision"><geometry><box><size>23.6 9.6 0.02</size></box></geometry></collision><visual name="visual"><geometry><box><size>23.6 9.6 0.02</size></box></geometry><material><ambient>0.6 0.5 0.3 1</ambient><diffuse>0.7 0.6 0.4 1</diffuse><pbr><metal><albedo_map>model://poultry_farm_world/materials/textures/litter_bedding.png</albedo_map></metal></pbr></material></visual></link></model>
+    <model name="tunnel1_central_runner"><static>true</static><pose>0 0 0.018 0 0 0</pose><link name="link"><visual name="visual"><geometry><box><size>23.4 1.5 0.005</size></box></geometry><material><ambient>0.7 0.7 0.7 1</ambient><diffuse>0.8 0.8 0.8 1</diffuse></material></visual></link></model>
+    <model name="tunnel1_charging_dock"><static>true</static><pose>-11.2 0 0.025 0 0 0</pose><link name="link"><visual name="visual"><geometry><box><size>0.8 0.8 0.02</size></box></geometry><material><ambient>0.8 0.6 0.1 1</ambient><diffuse>0.9 0.7 0.1 1</diffuse></material></visual></link></model>
+
+    <!-- Tunnel 1 Feed Silos & Fans -->
+    <include><name>feed_silo_1</name><uri>model://feed_silo</uri><pose>-14.5 -6.5 0 0 0 0</pose></include>
+    <include><name>feed_silo_2</name><uri>model://feed_silo</uri><pose>-14.5 -3.5 0 0 0 0</pose></include>
+    for fname, fx, fy, fz in [("t1_fan_1", 12.0, -2.4, 1.5), ("t1_fan_2", 12.0, -0.8, 1.5), ("t1_fan_3", 12.0, 0.8, 1.5), ("t1_fan_4", 12.0, 2.4, 1.5)]:
+    <include><name>t1_fan_1</name><uri>model://tunnel_fan</uri><pose>12.0 -2.4 1.5 0 0 3.141592653589793</pose></include>
+    <include><name>t1_fan_2</name><uri>model://tunnel_fan</uri><pose>12.0 -0.8 1.5 0 0 3.141592653589793</pose></include>
+    <include><name>t1_fan_3</name><uri>model://tunnel_fan</uri><pose>12.0 0.8 1.5 0 0 3.141592653589793</pose></include>
+    <include><name>t1_fan_4</name><uri>model://tunnel_fan</uri><pose>12.0 2.4 1.5 0 0 3.141592653589793</pose></include>
+
+    <!-- Tunnel 1 Brooder Heaters -->
+    <include><name>t1_heater_1</name><uri>model://brooder_heater</uri><pose>-6.0 0.0 2.6 0 0 0</pose></include>
+    <include><name>t1_heater_2</name><uri>model://brooder_heater</uri><pose>-2.0 0.0 2.6 0 0 0</pose></include>
+    <include><name>t1_heater_3</name><uri>model://brooder_heater</uri><pose>2.0 0.0 2.6 0 0 0</pose></include>
+    <include><name>t1_heater_4</name><uri>model://brooder_heater</uri><pose>6.0 0.0 2.6 0 0 0</pose></include>
+
+    <!-- Tunnel 1 Feeder Lines & Drinker Lines -->
+    <include><name>t1_feeder_n_1</name><uri>model://feeder_pan</uri><pose>-9.0 2.6 0.15 0 0 0</pose></include>
+    <include><name>t1_feeder_s_1</name><uri>model://feeder_pan</uri><pose>-9.0 -2.6 0.15 0 0 0</pose></include>
+    <include><name>t1_feeder_n_2</name><uri>model://feeder_pan</uri><pose>-7.0 2.6 0.15 0 0 0</pose></include>
+    <include><name>t1_feeder_s_2</name><uri>model://feeder_pan</uri><pose>-7.0 -2.6 0.15 0 0 0</pose></include>
+    <include><name>t1_feeder_n_3</name><uri>model://feeder_pan</uri><pose>-5.0 2.6 0.15 0 0 0</pose></include>
+    <include><name>t1_feeder_s_3</name><uri>model://feeder_pan</uri><pose>-5.0 -2.6 0.15 0 0 0</pose></include>
+    <include><name>t1_feeder_n_4</name><uri>model://feeder_pan</uri><pose>-3.0 2.6 0.15 0 0 0</pose></include>
+    <include><name>t1_feeder_s_4</name><uri>model://feeder_pan</uri><pose>-3.0 -2.6 0.15 0 0 0</pose></include>
+    <include><name>t1_feeder_n_5</name><uri>model://feeder_pan</uri><pose>-1.0 2.6 0.15 0 0 0</pose></include>
+    <include><name>t1_feeder_s_5</name><uri>model://feeder_pan</uri><pose>-1.0 -2.6 0.15 0 0 0</pose></include>
+    <include><name>t1_feeder_n_6</name><uri>model://feeder_pan</uri><pose>1.0 2.6 0.15 0 0 0</pose></include>
+    <include><name>t1_feeder_s_6</name><uri>model://feeder_pan</uri><pose>1.0 -2.6 0.15 0 0 0</pose></include>
+    <include><name>t1_feeder_n_7</name><uri>model://feeder_pan</uri><pose>3.0 2.6 0.15 0 0 0</pose></include>
+    <include><name>t1_feeder_s_7</name><uri>model://feeder_pan</uri><pose>3.0 -2.6 0.15 0 0 0</pose></include>
+    <include><name>t1_feeder_n_8</name><uri>model://feeder_pan</uri><pose>5.0 2.6 0.15 0 0 0</pose></include>
+    <include><name>t1_feeder_s_8</name><uri>model://feeder_pan</uri><pose>5.0 -2.6 0.15 0 0 0</pose></include>
+    <include><name>t1_feeder_n_9</name><uri>model://feeder_pan</uri><pose>7.0 2.6 0.15 0 0 0</pose></include>
+    <include><name>t1_feeder_s_9</name><uri>model://feeder_pan</uri><pose>7.0 -2.6 0.15 0 0 0</pose></include>
+    <include><name>t1_feeder_n_10</name><uri>model://feeder_pan</uri><pose>9.0 2.6 0.15 0 0 0</pose></include>
+    <include><name>t1_feeder_s_10</name><uri>model://feeder_pan</uri><pose>9.0 -2.6 0.15 0 0 0</pose></include>
+    <include><name>t1_drinker_n_1</name><uri>model://drinker_line</uri><pose>-8.0 1.4 0.28 0 0 0</pose></include>
+    <include><name>t1_drinker_s_1</name><uri>model://drinker_line</uri><pose>-8.0 -1.4 0.28 0 0 0</pose></include>
+    <include><name>t1_drinker_n_2</name><uri>model://drinker_line</uri><pose>-4.0 1.4 0.28 0 0 0</pose></include>
+    <include><name>t1_drinker_s_2</name><uri>model://drinker_line</uri><pose>-4.0 -1.4 0.28 0 0 0</pose></include>
+    <include><name>t1_drinker_n_3</name><uri>model://drinker_line</uri><pose>0.0 1.4 0.28 0 0 0</pose></include>
+    <include><name>t1_drinker_s_3</name><uri>model://drinker_line</uri><pose>0.0 -1.4 0.28 0 0 0</pose></include>
+    <include><name>t1_drinker_n_4</name><uri>model://drinker_line</uri><pose>4.0 1.4 0.28 0 0 0</pose></include>
+    <include><name>t1_drinker_s_4</name><uri>model://drinker_line</uri><pose>4.0 -1.4 0.28 0 0 0</pose></include>
+    <include><name>t1_drinker_n_5</name><uri>model://drinker_line</uri><pose>8.0 1.4 0.28 0 0 0</pose></include>
+    <include><name>t1_drinker_s_5</name><uri>model://drinker_line</uri><pose>8.0 -1.4 0.28 0 0 0</pose></include>
+
+    <!-- Tunnel 1 Perches & Nesting Boxes -->
+    <include><name>t1_perch_1</name><uri>model://perch_a_frame</uri><pose>-7.0 -3.6 0 0 0 0</pose></include>
+    <include><name>t1_perch_2</name><uri>model://perch_a_frame</uri><pose>7.0 3.6 0 0 0 0</pose></include>
+    <include><name>t1_nest_1</name><uri>model://nesting_box</uri><pose>-2.0 -4.4 0 0 0 0</pose></include>
+    <include><name>t1_nest_2</name><uri>model://nesting_box</uri><pose>5.0 -4.4 0 0 0 0</pose></include>
+
+    <!-- Tunnel 1 Sensors & ArUco Markers -->
+    <include><name>t1_sensor_1</name><uri>model://sensor_node</uri><pose>-5.0 4.85 1.6 0 0 -1.5708</pose></include>
+    <include><name>t1_sensor_2</name><uri>model://sensor_node</uri><pose>5.0 4.85 1.6 0 0 -1.5708</pose></include>
+    <include><name>t1_aruco_0</name><uri>model://aruco_marker_0</uri><pose>-11.8 -1.2 1.2 0 0 0</pose></include>
+    <include><name>t1_aruco_1</name><uri>model://aruco_marker_1</uri><pose>-11.8 1.2 1.2 0 0 0</pose></include>
+
+    <!-- South Paddock Enclosure -->
+    <model name="tunnel1_south_paddock"><static>true</static><link name="link">
+      <visual name="f_s"><pose>0 -11.0 0.6 0 0 0</pose><geometry><box><size>14.0 0.05 1.2</size></box></geometry><material><ambient>0.6 0.45 0.3 1</ambient><diffuse>0.6 0.45 0.3 1</diffuse></material></visual>
+      <collision name="c_s"><pose>0 -11.0 0.6 0 0 0</pose><geometry><box><size>14.0 0.1 1.2</size></box></geometry></collision>
+      <visual name="f_w"><pose>-7.0 -8.0 0.6 0 0 0</pose><geometry><box><size>0.05 6.0 1.2</size></box></geometry><material><ambient>0.6 0.45 0.3 1</ambient><diffuse>0.6 0.45 0.3 1</diffuse></material></visual>
+      <collision name="c_w"><pose>-7.0 -8.0 0.6 0 0 0</pose><geometry><box><size>0.1 6.0 1.2</size></box></geometry></collision>
+      <visual name="f_e"><pose>7.0 -8.0 0.6 0 0 0</pose><geometry><box><size>0.05 6.0 1.2</size></box></geometry><material><ambient>0.6 0.45 0.3 1</ambient><diffuse>0.6 0.45 0.3 1</diffuse></material></visual>
+      <collision name="c_e"><pose>7.0 -8.0 0.6 0 0 0</pose><geometry><box><size>0.1 6.0 1.2</size></box></geometry></collision>
+    </link></model>
+
+    <!-- EGGS IN TUNNEL 1 (Nesting boxes & floor eggs) -->
+    <include><name>t1_nest_egg_1</name><uri>model://egg_white</uri><pose>-2.30 -4.40 0.28 0 0 0</pose></include>
+    <include><name>t1_nest_egg_2</name><uri>model://egg_brown</uri><pose>-2.10 -4.35 0.28 0 0 0</pose></include>
+    <include><name>t1_nest_egg_3</name><uri>model://egg_white</uri><pose>-1.90 -4.42 0.28 0 0 0</pose></include>
+    <include><name>t1_nest_egg_4</name><uri>model://egg_brown</uri><pose>-1.70 -4.37 0.28 0 0 0</pose></include>
+    <include><name>t1_nest_egg_5</name><uri>model://egg_white</uri><pose>4.75 -4.40 0.28 0 0 0</pose></include>
+    <include><name>t1_nest_egg_6</name><uri>model://egg_brown</uri><pose>5.00 -4.36 0.28 0 0 0</pose></include>
+    <include><name>t1_nest_egg_7</name><uri>model://egg_white</uri><pose>5.25 -4.43 0.28 0 0 0</pose></include>
+    <include><name>t1_floor_egg_8</name><uri>model://egg_brown</uri><pose>-4.2 -3.5 0.015 1.57 0 2.25</pose></include>
+    <include><name>t1_floor_egg_9</name><uri>model://egg_white</uri><pose>-1.8 3.2 0.015 1.57 0 2.93</pose></include>
+    <include><name>t1_floor_egg_10</name><uri>model://egg_brown</uri><pose>0.5 -1.8 0.015 1.57 0 2.13</pose></include>
+    <include><name>t1_floor_egg_11</name><uri>model://egg_white</uri><pose>3.6 -3.6 0.015 1.57 0 0.23</pose></include>
+    <include><name>t1_floor_egg_12</name><uri>model://egg_brown</uri><pose>6.2 3.4 0.015 1.57 0 0.87</pose></include>
+    <include><name>t1_floor_egg_13</name><uri>model://egg_white</uri><pose>-6.5 3.7 0.015 1.57 0 2.56</pose></include>
+
+    <!-- ================================================================= -->
+    <!-- TUNNEL BARN 2: 5-LEVEL LAYER CAGE HOUSE & EGG SEPARATION MILL     -->
+    <!-- ================================================================= -->
+    <include><name>poultry_barn_tunnel_2</name><uri>model://poultry_barn</uri><pose>0 16.0 0 0 0 0</pose></include>
+    <model name="tunnel2_concrete_floor"><static>true</static><pose>0 16.0 0.01 0 0 0</pose><link name="link"><collision name="collision"><geometry><box><size>23.6 9.6 0.02</size></box></geometry></collision><visual name="visual"><geometry><box><size>23.6 9.6 0.02</size></box></geometry><material><ambient>0.72 0.72 0.72 1</ambient><diffuse>0.75 0.75 0.75 1</diffuse><pbr><metal><albedo_map>model://poultry_farm_world/materials/textures/concrete_floor.png</albedo_map></metal></pbr></material></visual></link></model>
+    <model name="tunnel2_inspection_aisle"><static>true</static><pose>0 16.0 0.018 0 0 0</pose><link name="link"><visual name="visual"><geometry><box><size>23.4 2.2 0.005</size></box></geometry><material><ambient>0.6 0.6 0.65 1</ambient><diffuse>0.65 0.65 0.70 1</diffuse></material></visual></link></model>
+    <model name="tunnel2_docking_station"><static>true</static><pose>-11.2 16.0 0.025 0 0 0</pose><link name="link"><visual name="visual"><geometry><box><size>0.9 0.9 0.02</size></box></geometry><material><ambient>0.2 0.25 0.2 1</ambient><diffuse>0.25 0.85 0.45 1</diffuse></material></visual></link></model>
+
+    <!-- Tunnel 2 Feed Silos & Fans -->
+    <include><name>feed_silo_3</name><uri>model://feed_silo</uri><pose>-14.5 22.5 0 0 0 0</pose></include>
+    <include><name>feed_silo_4</name><uri>model://feed_silo</uri><pose>-14.5 25.8 0 0 0 0.3</pose></include>
+    <include><name>t2_fan_1</name><uri>model://tunnel_fan</uri><pose>12.0 13.6 1.5 0 0 3.141592653589793</pose></include>
+    <include><name>t2_fan_2</name><uri>model://tunnel_fan</uri><pose>12.0 15.2 1.5 0 0 3.141592653589793</pose></include>
+    <include><name>t2_fan_3</name><uri>model://tunnel_fan</uri><pose>12.0 16.8 1.5 0 0 3.141592653589793</pose></include>
+    <include><name>t2_fan_4</name><uri>model://tunnel_fan</uri><pose>12.0 18.4 1.5 0 0 3.141592653589793</pose></include>
+
+    <!-- Tunnel 2 Sensors & ArUco Markers -->
+    <include><name>t2_sensor_1</name><uri>model://sensor_node</uri><pose>-5.0 20.85 1.6 0 0 -1.5708</pose></include>
+    <include><name>t2_sensor_2</name><uri>model://sensor_node</uri><pose>5.0 20.85 1.6 0 0 -1.5708</pose></include>
+    <include><name>t2_aruco_2</name><uri>model://aruco_marker_2</uri><pose>-11.8 14.8 1.2 0 0 0</pose></include>
+    <include><name>t2_aruco_3</name><uri>model://aruco_marker_3</uri><pose>-11.8 17.2 1.2 0 0 0</pose></include>
+
+    <!-- ================================================================= -->
+    <!-- INDUSTRIAL EGG SEPARATION & GRADING MILL FACILITY                -->
+    <!-- ================================================================= -->
+    <include>
+      <name>egg_separation_mill_station</name>
+      <uri>model://egg_separation_mill</uri>
+      <pose>-9.2 16.0 0 0 0 0</pose>
+    </include>
+
+    <!-- 30-Egg Trays on Pallet & Packing Table -->
+    <include><name>egg_tray_stack_1</name><uri>model://egg_tray_30</uri><pose>-6.8 14.8 0.55 0 0 0</pose></include>
+    <include><name>egg_tray_stack_2</name><uri>model://egg_tray_30</uri><pose>-6.8 15.3 0.55 0 0 0</pose></include>
+    <include><name>egg_tray_pallet_1</name><uri>model://egg_tray_30</uri><pose>-7.2 17.5 0.15 0 0 0.2</pose></include>
+    <include><name>egg_tray_pallet_2</name><uri>model://egg_tray_30</uri><pose>-7.2 17.5 0.23 0 0 0.1</pose></include>
+
+    <!-- 5-TIER BATTERY CAGE RACKS (TWO LONG PARALLEL ROWS) -->
+    <include><name>cage_rack_south_1</name><uri>model://cage_rack_5tier</uri><pose>-6.0 13.8 0 0 0 0</pose></include>
+    <include><name>cage_rack_north_1</name><uri>model://cage_rack_5tier</uri><pose>-6.0 18.2 0 0 0 0</pose></include>
+    <include><name>cage_rack_south_2</name><uri>model://cage_rack_5tier</uri><pose>-2.0 13.8 0 0 0 0</pose></include>
+    <include><name>cage_rack_north_2</name><uri>model://cage_rack_5tier</uri><pose>-2.0 18.2 0 0 0 0</pose></include>
+    <include><name>cage_rack_south_3</name><uri>model://cage_rack_5tier</uri><pose>2.0 13.8 0 0 0 0</pose></include>
+    <include><name>cage_rack_north_3</name><uri>model://cage_rack_5tier</uri><pose>2.0 18.2 0 0 0 0</pose></include>
+    <include><name>cage_rack_south_4</name><uri>model://cage_rack_5tier</uri><pose>6.0 13.8 0 0 0 0</pose></include>
+    <include><name>cage_rack_north_4</name><uri>model://cage_rack_5tier</uri><pose>6.0 18.2 0 0 0 0</pose></include>
+
+    <!-- EGGS VISIBLE ALONG THE 5 TIERS OF CAGES (Front Roll-Out Trays) -->
+    <include><name>rack_egg_s_L1_4</name><uri>model://egg_brown</uri><pose>-5.50 14.38 0.42 1.57 0 0</pose></include>
+    <include><name>rack_egg_n_L1_4</name><uri>model://egg_white</uri><pose>-5.50 17.62 0.42 1.57 0 0</pose></include>
+    <include><name>rack_egg_s_L1_6</name><uri>model://egg_brown</uri><pose>-3.50 14.38 0.42 1.57 0 0</pose></include>
+    <include><name>rack_egg_n_L1_6</name><uri>model://egg_white</uri><pose>-3.50 17.62 0.42 1.57 0 0</pose></include>
+    <include><name>rack_egg_s_L1_8</name><uri>model://egg_brown</uri><pose>-1.50 14.38 0.42 1.57 0 0</pose></include>
+    <include><name>rack_egg_n_L1_8</name><uri>model://egg_white</uri><pose>-1.50 17.62 0.42 1.57 0 0</pose></include>
+    <include><name>rack_egg_s_L1_10</name><uri>model://egg_white</uri><pose>0.50 14.38 0.42 1.57 0 0</pose></include>
+    <include><name>rack_egg_n_L1_10</name><uri>model://egg_brown</uri><pose>0.50 17.62 0.42 1.57 0 0</pose></include>
+    <include><name>rack_egg_s_L1_12</name><uri>model://egg_white</uri><pose>2.50 14.38 0.42 1.57 0 0</pose></include>
+    <include><name>rack_egg_n_L1_12</name><uri>model://egg_brown</uri><pose>2.50 17.62 0.42 1.57 0 0</pose></include>
+    <include><name>rack_egg_s_L1_14</name><uri>model://egg_white</uri><pose>4.50 14.38 0.42 1.57 0 0</pose></include>
+    <include><name>rack_egg_n_L1_14</name><uri>model://egg_brown</uri><pose>4.50 17.62 0.42 1.57 0 0</pose></include>
+    <include><name>rack_egg_s_L1_16</name><uri>model://egg_white</uri><pose>6.50 14.38 0.42 1.57 0 0</pose></include>
+    <include><name>rack_egg_n_L1_16</name><uri>model://egg_brown</uri><pose>6.50 17.62 0.42 1.57 0 0</pose></include>
+    <include><name>rack_egg_s_L2_4</name><uri>model://egg_white</uri><pose>-5.50 14.38 0.92 1.57 0 0</pose></include>
+    <include><name>rack_egg_n_L2_4</name><uri>model://egg_brown</uri><pose>-5.50 17.62 0.92 1.57 0 0</pose></include>
+    <include><name>rack_egg_s_L2_6</name><uri>model://egg_white</uri><pose>-3.50 14.38 0.92 1.57 0 0</pose></include>
+    <include><name>rack_egg_n_L2_6</name><uri>model://egg_brown</uri><pose>-3.50 17.62 0.92 1.57 0 0</pose></include>
+    <include><name>rack_egg_s_L2_8</name><uri>model://egg_white</uri><pose>-1.50 14.38 0.92 1.57 0 0</pose></include>
+    <include><name>rack_egg_n_L2_8</name><uri>model://egg_brown</uri><pose>-1.50 17.62 0.92 1.57 0 0</pose></include>
+    <include><name>rack_egg_s_L2_10</name><uri>model://egg_brown</uri><pose>0.50 14.38 0.92 1.57 0 0</pose></include>
+    <include><name>rack_egg_n_L2_10</name><uri>model://egg_white</uri><pose>0.50 17.62 0.92 1.57 0 0</pose></include>
+    <include><name>rack_egg_s_L2_12</name><uri>model://egg_brown</uri><pose>2.50 14.38 0.92 1.57 0 0</pose></include>
+    <include><name>rack_egg_n_L2_12</name><uri>model://egg_white</uri><pose>2.50 17.62 0.92 1.57 0 0</pose></include>
+    <include><name>rack_egg_s_L2_14</name><uri>model://egg_brown</uri><pose>4.50 14.38 0.92 1.57 0 0</pose></include>
+    <include><name>rack_egg_n_L2_14</name><uri>model://egg_white</uri><pose>4.50 17.62 0.92 1.57 0 0</pose></include>
+    <include><name>rack_egg_s_L2_16</name><uri>model://egg_brown</uri><pose>6.50 14.38 0.92 1.57 0 0</pose></include>
+    <include><name>rack_egg_n_L2_16</name><uri>model://egg_white</uri><pose>6.50 17.62 0.92 1.57 0 0</pose></include>
+    <include><name>rack_egg_s_L3_4</name><uri>model://egg_brown</uri><pose>-5.50 14.38 1.42 1.57 0 0</pose></include>
+    <include><name>rack_egg_n_L3_4</name><uri>model://egg_white</uri><pose>-5.50 17.62 1.42 1.57 0 0</pose></include>
+    <include><name>rack_egg_s_L3_6</name><uri>model://egg_brown</uri><pose>-3.50 14.38 1.42 1.57 0 0</pose></include>
+    <include><name>rack_egg_n_L3_6</name><uri>model://egg_white</uri><pose>-3.50 17.62 1.42 1.57 0 0</pose></include>
+    <include><name>rack_egg_s_L3_8</name><uri>model://egg_brown</uri><pose>-1.50 14.38 1.42 1.57 0 0</pose></include>
+    <include><name>rack_egg_n_L3_8</name><uri>model://egg_white</uri><pose>-1.50 17.62 1.42 1.57 0 0</pose></include>
+    <include><name>rack_egg_s_L3_10</name><uri>model://egg_white</uri><pose>0.50 14.38 1.42 1.57 0 0</pose></include>
+    <include><name>rack_egg_n_L3_10</name><uri>model://egg_brown</uri><pose>0.50 17.62 1.42 1.57 0 0</pose></include>
+    <include><name>rack_egg_s_L3_12</name><uri>model://egg_white</uri><pose>2.50 14.38 1.42 1.57 0 0</pose></include>
+    <include><name>rack_egg_n_L3_12</name><uri>model://egg_brown</uri><pose>2.50 17.62 1.42 1.57 0 0</pose></include>
+    <include><name>rack_egg_s_L3_14</name><uri>model://egg_white</uri><pose>4.50 14.38 1.42 1.57 0 0</pose></include>
+    <include><name>rack_egg_n_L3_14</name><uri>model://egg_brown</uri><pose>4.50 17.62 1.42 1.57 0 0</pose></include>
+    <include><name>rack_egg_s_L3_16</name><uri>model://egg_white</uri><pose>6.50 14.38 1.42 1.57 0 0</pose></include>
+    <include><name>rack_egg_n_L3_16</name><uri>model://egg_brown</uri><pose>6.50 17.62 1.42 1.57 0 0</pose></include>
+    <include><name>rack_egg_s_L4_4</name><uri>model://egg_white</uri><pose>-5.50 14.38 1.92 1.57 0 0</pose></include>
+    <include><name>rack_egg_n_L4_4</name><uri>model://egg_brown</uri><pose>-5.50 17.62 1.92 1.57 0 0</pose></include>
+    <include><name>rack_egg_s_L4_6</name><uri>model://egg_white</uri><pose>-3.50 14.38 1.92 1.57 0 0</pose></include>
+    <include><name>rack_egg_n_L4_6</name><uri>model://egg_brown</uri><pose>-3.50 17.62 1.92 1.57 0 0</pose></include>
+    <include><name>rack_egg_s_L4_8</name><uri>model://egg_white</uri><pose>-1.50 14.38 1.92 1.57 0 0</pose></include>
+    <include><name>rack_egg_n_L4_8</name><uri>model://egg_brown</uri><pose>-1.50 17.62 1.92 1.57 0 0</pose></include>
+    <include><name>rack_egg_s_L4_10</name><uri>model://egg_brown</uri><pose>0.50 14.38 1.92 1.57 0 0</pose></include>
+    <include><name>rack_egg_n_L4_10</name><uri>model://egg_white</uri><pose>0.50 17.62 1.92 1.57 0 0</pose></include>
+    <include><name>rack_egg_s_L4_12</name><uri>model://egg_brown</uri><pose>2.50 14.38 1.92 1.57 0 0</pose></include>
+    <include><name>rack_egg_n_L4_12</name><uri>model://egg_white</uri><pose>2.50 17.62 1.92 1.57 0 0</pose></include>
+    <include><name>rack_egg_s_L4_14</name><uri>model://egg_brown</uri><pose>4.50 14.38 1.92 1.57 0 0</pose></include>
+    <include><name>rack_egg_n_L4_14</name><uri>model://egg_white</uri><pose>4.50 17.62 1.92 1.57 0 0</pose></include>
+    <include><name>rack_egg_s_L4_16</name><uri>model://egg_brown</uri><pose>6.50 14.38 1.92 1.57 0 0</pose></include>
+    <include><name>rack_egg_n_L4_16</name><uri>model://egg_white</uri><pose>6.50 17.62 1.92 1.57 0 0</pose></include>
+    <include><name>rack_egg_s_L5_4</name><uri>model://egg_brown</uri><pose>-5.50 14.38 2.42 1.57 0 0</pose></include>
+    <include><name>rack_egg_n_L5_4</name><uri>model://egg_white</uri><pose>-5.50 17.62 2.42 1.57 0 0</pose></include>
+    <include><name>rack_egg_s_L5_6</name><uri>model://egg_brown</uri><pose>-3.50 14.38 2.42 1.57 0 0</pose></include>
+    <include><name>rack_egg_n_L5_6</name><uri>model://egg_white</uri><pose>-3.50 17.62 2.42 1.57 0 0</pose></include>
+    <include><name>rack_egg_s_L5_8</name><uri>model://egg_brown</uri><pose>-1.50 14.38 2.42 1.57 0 0</pose></include>
+    <include><name>rack_egg_n_L5_8</name><uri>model://egg_white</uri><pose>-1.50 17.62 2.42 1.57 0 0</pose></include>
+    <include><name>rack_egg_s_L5_10</name><uri>model://egg_white</uri><pose>0.50 14.38 2.42 1.57 0 0</pose></include>
+    <include><name>rack_egg_n_L5_10</name><uri>model://egg_brown</uri><pose>0.50 17.62 2.42 1.57 0 0</pose></include>
+    <include><name>rack_egg_s_L5_12</name><uri>model://egg_white</uri><pose>2.50 14.38 2.42 1.57 0 0</pose></include>
+    <include><name>rack_egg_n_L5_12</name><uri>model://egg_brown</uri><pose>2.50 17.62 2.42 1.57 0 0</pose></include>
+    <include><name>rack_egg_s_L5_14</name><uri>model://egg_white</uri><pose>4.50 14.38 2.42 1.57 0 0</pose></include>
+    <include><name>rack_egg_n_L5_14</name><uri>model://egg_brown</uri><pose>4.50 17.62 2.42 1.57 0 0</pose></include>
+    <include><name>rack_egg_s_L5_16</name><uri>model://egg_white</uri><pose>6.50 14.38 2.42 1.57 0 0</pose></include>
+    <include><name>rack_egg_n_L5_16</name><uri>model://egg_brown</uri><pose>6.50 17.62 2.42 1.57 0 0</pose></include>
+
+    <!-- HENS IN 5-TIER RACKS (TUNNEL 2) -->
+    <include><name>hen_cage_s_f_L1_1</name><uri>model://chicken_brown_pecking</uri><pose>-7.20 14.15 0.40 0 0 1.571</pose></include>
+    <include><name>hen_cage_s_f_L1_3</name><uri>model://chicken_white_standing</uri><pose>-4.00 14.15 0.40 0 0 1.571</pose></include>
+    <include><name>hen_cage_s_f_L1_5</name><uri>model://chicken_white_standing</uri><pose>-0.80 14.15 0.40 0 0 1.571</pose></include>
+    <include><name>hen_cage_s_f_L1_7</name><uri>model://chicken_brown_pecking</uri><pose>2.40 14.15 0.40 0 0 1.571</pose></include>
+    <include><name>hen_cage_s_f_L1_9</name><uri>model://chicken_white_standing</uri><pose>5.60 14.15 0.40 0 0 1.571</pose></include>
+    <include><name>hen_cage_s_b_L1_1</name><uri>model://chicken_white_standing</uri><pose>-7.20 13.45 0.40 0 0 -1.571</pose></include>
+    <include><name>hen_cage_s_b_L1_3</name><uri>model://chicken_white_standing</uri><pose>-4.00 13.45 0.40 0 0 -1.571</pose></include>
+    <include><name>hen_cage_s_b_L1_5</name><uri>model://chicken_white_standing</uri><pose>-0.80 13.45 0.40 0 0 -1.571</pose></include>
+    <include><name>hen_cage_s_b_L1_7</name><uri>model://chicken_white_standing</uri><pose>2.40 13.45 0.40 0 0 -1.571</pose></include>
+    <include><name>hen_cage_s_b_L1_9</name><uri>model://chicken_white_standing</uri><pose>5.60 13.45 0.40 0 0 -1.571</pose></include>
+    <include><name>hen_cage_s_f_L2_2</name><uri>model://chicken_white_standing</uri><pose>-5.60 14.15 0.90 0 0 1.571</pose></include>
+    <include><name>hen_cage_s_f_L2_4</name><uri>model://chicken_white_pecking</uri><pose>-2.40 14.15 0.90 0 0 1.571</pose></include>
+    <include><name>hen_cage_s_f_L2_6</name><uri>model://chicken_brown_standing</uri><pose>0.80 14.15 0.90 0 0 1.571</pose></include>
+    <include><name>hen_cage_s_f_L2_8</name><uri>model://chicken_white_standing</uri><pose>4.00 14.15 0.90 0 0 1.571</pose></include>
+    <include><name>hen_cage_s_f_L2_10</name><uri>model://chicken_white_pecking</uri><pose>7.20 14.15 0.90 0 0 1.571</pose></include>
+    <include><name>hen_cage_s_b_L2_1</name><uri>model://chicken_brown_standing</uri><pose>-7.20 13.45 0.90 0 0 -1.571</pose></include>
+    <include><name>hen_cage_s_b_L2_3</name><uri>model://chicken_brown_standing</uri><pose>-4.00 13.45 0.90 0 0 -1.571</pose></include>
+    <include><name>hen_cage_s_b_L2_5</name><uri>model://chicken_brown_standing</uri><pose>-0.80 13.45 0.90 0 0 -1.571</pose></include>
+    <include><name>hen_cage_s_b_L2_7</name><uri>model://chicken_brown_standing</uri><pose>2.40 13.45 0.90 0 0 -1.571</pose></include>
+    <include><name>hen_cage_s_b_L2_9</name><uri>model://chicken_brown_standing</uri><pose>5.60 13.45 0.90 0 0 -1.571</pose></include>
+    <include><name>hen_cage_s_f_L3_1</name><uri>model://chicken_white_pecking</uri><pose>-7.20 14.15 1.40 0 0 1.571</pose></include>
+    <include><name>hen_cage_s_f_L3_3</name><uri>model://chicken_white_standing</uri><pose>-4.00 14.15 1.40 0 0 1.571</pose></include>
+    <include><name>hen_cage_s_f_L3_5</name><uri>model://chicken_brown_standing</uri><pose>-0.80 14.15 1.40 0 0 1.571</pose></include>
+    <include><name>hen_cage_s_f_L3_7</name><uri>model://chicken_white_pecking</uri><pose>2.40 14.15 1.40 0 0 1.571</pose></include>
+    <include><name>hen_cage_s_f_L3_9</name><uri>model://chicken_white_standing</uri><pose>5.60 14.15 1.40 0 0 1.571</pose></include>
+    <include><name>hen_cage_s_b_L3_1</name><uri>model://chicken_white_standing</uri><pose>-7.20 13.45 1.40 0 0 -1.571</pose></include>
+    <include><name>hen_cage_s_b_L3_3</name><uri>model://chicken_white_standing</uri><pose>-4.00 13.45 1.40 0 0 -1.571</pose></include>
+    <include><name>hen_cage_s_b_L3_5</name><uri>model://chicken_white_standing</uri><pose>-0.80 13.45 1.40 0 0 -1.571</pose></include>
+    <include><name>hen_cage_s_b_L3_7</name><uri>model://chicken_white_standing</uri><pose>2.40 13.45 1.40 0 0 -1.571</pose></include>
+    <include><name>hen_cage_s_b_L3_9</name><uri>model://chicken_white_standing</uri><pose>5.60 13.45 1.40 0 0 -1.571</pose></include>
+    <include><name>hen_cage_s_f_L4_2</name><uri>model://chicken_white_standing</uri><pose>-5.60 14.15 1.90 0 0 1.571</pose></include>
+    <include><name>hen_cage_s_f_L4_4</name><uri>model://chicken_brown_pecking</uri><pose>-2.40 14.15 1.90 0 0 1.571</pose></include>
+    <include><name>hen_cage_s_f_L4_6</name><uri>model://chicken_white_standing</uri><pose>0.80 14.15 1.90 0 0 1.571</pose></include>
+    <include><name>hen_cage_s_f_L4_8</name><uri>model://chicken_white_standing</uri><pose>4.00 14.15 1.90 0 0 1.571</pose></include>
+    <include><name>hen_cage_s_f_L4_10</name><uri>model://chicken_brown_pecking</uri><pose>7.20 14.15 1.90 0 0 1.571</pose></include>
+    <include><name>hen_cage_s_b_L4_1</name><uri>model://chicken_brown_standing</uri><pose>-7.20 13.45 1.90 0 0 -1.571</pose></include>
+    <include><name>hen_cage_s_b_L4_3</name><uri>model://chicken_brown_standing</uri><pose>-4.00 13.45 1.90 0 0 -1.571</pose></include>
+    <include><name>hen_cage_s_b_L4_5</name><uri>model://chicken_brown_standing</uri><pose>-0.80 13.45 1.90 0 0 -1.571</pose></include>
+    <include><name>hen_cage_s_b_L4_7</name><uri>model://chicken_brown_standing</uri><pose>2.40 13.45 1.90 0 0 -1.571</pose></include>
+    <include><name>hen_cage_s_b_L4_9</name><uri>model://chicken_brown_standing</uri><pose>5.60 13.45 1.90 0 0 -1.571</pose></include>
+    <include><name>hen_cage_s_f_L5_1</name><uri>model://chicken_white_pecking</uri><pose>-7.20 14.15 2.40 0 0 1.571</pose></include>
+    <include><name>hen_cage_s_f_L5_3</name><uri>model://chicken_brown_standing</uri><pose>-4.00 14.15 2.40 0 0 1.571</pose></include>
+    <include><name>hen_cage_s_f_L5_5</name><uri>model://chicken_white_standing</uri><pose>-0.80 14.15 2.40 0 0 1.571</pose></include>
+    <include><name>hen_cage_s_f_L5_7</name><uri>model://chicken_white_pecking</uri><pose>2.40 14.15 2.40 0 0 1.571</pose></include>
+    <include><name>hen_cage_s_f_L5_9</name><uri>model://chicken_brown_standing</uri><pose>5.60 14.15 2.40 0 0 1.571</pose></include>
+    <include><name>hen_cage_s_b_L5_1</name><uri>model://chicken_white_standing</uri><pose>-7.20 13.45 2.40 0 0 -1.571</pose></include>
+    <include><name>hen_cage_s_b_L5_3</name><uri>model://chicken_white_standing</uri><pose>-4.00 13.45 2.40 0 0 -1.571</pose></include>
+    <include><name>hen_cage_s_b_L5_5</name><uri>model://chicken_white_standing</uri><pose>-0.80 13.45 2.40 0 0 -1.571</pose></include>
+    <include><name>hen_cage_s_b_L5_7</name><uri>model://chicken_white_standing</uri><pose>2.40 13.45 2.40 0 0 -1.571</pose></include>
+    <include><name>hen_cage_s_b_L5_9</name><uri>model://chicken_white_standing</uri><pose>5.60 13.45 2.40 0 0 -1.571</pose></include>
+    <include><name>hen_cage_n_f_L1_2</name><uri>model://chicken_brown_pecking</uri><pose>-5.60 17.85 0.40 0 0 -1.571</pose></include>
+    <include><name>hen_cage_n_f_L1_4</name><uri>model://chicken_brown_pecking</uri><pose>-2.40 17.85 0.40 0 0 -1.571</pose></include>
+    <include><name>hen_cage_n_f_L1_6</name><uri>model://chicken_brown_pecking</uri><pose>0.80 17.85 0.40 0 0 -1.571</pose></include>
+    <include><name>hen_cage_n_f_L1_8</name><uri>model://chicken_brown_pecking</uri><pose>4.00 17.85 0.40 0 0 -1.571</pose></include>
+    <include><name>hen_cage_n_f_L1_10</name><uri>model://chicken_brown_pecking</uri><pose>7.20 17.85 0.40 0 0 -1.571</pose></include>
+    <include><name>hen_cage_n_b_L1_2</name><uri>model://chicken_brown_standing</uri><pose>-5.60 18.55 0.40 0 0 1.571</pose></include>
+    <include><name>hen_cage_n_b_L1_4</name><uri>model://chicken_white_standing</uri><pose>-2.40 18.55 0.40 0 0 1.571</pose></include>
+    <include><name>hen_cage_n_b_L1_6</name><uri>model://chicken_brown_standing</uri><pose>0.80 18.55 0.40 0 0 1.571</pose></include>
+    <include><name>hen_cage_n_b_L1_8</name><uri>model://chicken_brown_standing</uri><pose>4.00 18.55 0.40 0 0 1.571</pose></include>
+    <include><name>hen_cage_n_b_L1_10</name><uri>model://chicken_white_standing</uri><pose>7.20 18.55 0.40 0 0 1.571</pose></include>
+    <include><name>hen_cage_n_f_L2_1</name><uri>model://chicken_brown_standing</uri><pose>-7.20 17.85 0.90 0 0 -1.571</pose></include>
+    <include><name>hen_cage_n_f_L2_3</name><uri>model://chicken_brown_standing</uri><pose>-4.00 17.85 0.90 0 0 -1.571</pose></include>
+    <include><name>hen_cage_n_f_L2_5</name><uri>model://chicken_brown_standing</uri><pose>-0.80 17.85 0.90 0 0 -1.571</pose></include>
+    <include><name>hen_cage_n_f_L2_7</name><uri>model://chicken_brown_standing</uri><pose>2.40 17.85 0.90 0 0 -1.571</pose></include>
+    <include><name>hen_cage_n_f_L2_9</name><uri>model://chicken_brown_standing</uri><pose>5.60 17.85 0.90 0 0 -1.571</pose></include>
+    <include><name>hen_cage_n_b_L2_2</name><uri>model://chicken_brown_standing</uri><pose>-5.60 18.55 0.90 0 0 1.571</pose></include>
+    <include><name>hen_cage_n_b_L2_4</name><uri>model://chicken_brown_standing</uri><pose>-2.40 18.55 0.90 0 0 1.571</pose></include>
+    <include><name>hen_cage_n_b_L2_6</name><uri>model://chicken_white_standing</uri><pose>0.80 18.55 0.90 0 0 1.571</pose></include>
+    <include><name>hen_cage_n_b_L2_8</name><uri>model://chicken_brown_standing</uri><pose>4.00 18.55 0.90 0 0 1.571</pose></include>
+    <include><name>hen_cage_n_b_L2_10</name><uri>model://chicken_brown_standing</uri><pose>7.20 18.55 0.90 0 0 1.571</pose></include>
+    <include><name>hen_cage_n_f_L3_2</name><uri>model://chicken_brown_pecking</uri><pose>-5.60 17.85 1.40 0 0 -1.571</pose></include>
+    <include><name>hen_cage_n_f_L3_4</name><uri>model://chicken_brown_pecking</uri><pose>-2.40 17.85 1.40 0 0 -1.571</pose></include>
+    <include><name>hen_cage_n_f_L3_6</name><uri>model://chicken_brown_pecking</uri><pose>0.80 17.85 1.40 0 0 -1.571</pose></include>
+    <include><name>hen_cage_n_f_L3_8</name><uri>model://chicken_brown_pecking</uri><pose>4.00 17.85 1.40 0 0 -1.571</pose></include>
+    <include><name>hen_cage_n_f_L3_10</name><uri>model://chicken_brown_pecking</uri><pose>7.20 17.85 1.40 0 0 -1.571</pose></include>
+    <include><name>hen_cage_n_b_L3_2</name><uri>model://chicken_white_standing</uri><pose>-5.60 18.55 1.40 0 0 1.571</pose></include>
+    <include><name>hen_cage_n_b_L3_4</name><uri>model://chicken_brown_standing</uri><pose>-2.40 18.55 1.40 0 0 1.571</pose></include>
+    <include><name>hen_cage_n_b_L3_6</name><uri>model://chicken_brown_standing</uri><pose>0.80 18.55 1.40 0 0 1.571</pose></include>
+    <include><name>hen_cage_n_b_L3_8</name><uri>model://chicken_white_standing</uri><pose>4.00 18.55 1.40 0 0 1.571</pose></include>
+    <include><name>hen_cage_n_b_L3_10</name><uri>model://chicken_brown_standing</uri><pose>7.20 18.55 1.40 0 0 1.571</pose></include>
+    <include><name>hen_cage_n_f_L4_1</name><uri>model://chicken_brown_standing</uri><pose>-7.20 17.85 1.90 0 0 -1.571</pose></include>
+    <include><name>hen_cage_n_f_L4_3</name><uri>model://chicken_brown_standing</uri><pose>-4.00 17.85 1.90 0 0 -1.571</pose></include>
+    <include><name>hen_cage_n_f_L4_5</name><uri>model://chicken_brown_standing</uri><pose>-0.80 17.85 1.90 0 0 -1.571</pose></include>
+    <include><name>hen_cage_n_f_L4_7</name><uri>model://chicken_brown_standing</uri><pose>2.40 17.85 1.90 0 0 -1.571</pose></include>
+    <include><name>hen_cage_n_f_L4_9</name><uri>model://chicken_brown_standing</uri><pose>5.60 17.85 1.90 0 0 -1.571</pose></include>
+    <include><name>hen_cage_n_b_L4_2</name><uri>model://chicken_brown_standing</uri><pose>-5.60 18.55 1.90 0 0 1.571</pose></include>
+    <include><name>hen_cage_n_b_L4_4</name><uri>model://chicken_white_standing</uri><pose>-2.40 18.55 1.90 0 0 1.571</pose></include>
+    <include><name>hen_cage_n_b_L4_6</name><uri>model://chicken_brown_standing</uri><pose>0.80 18.55 1.90 0 0 1.571</pose></include>
+    <include><name>hen_cage_n_b_L4_8</name><uri>model://chicken_brown_standing</uri><pose>4.00 18.55 1.90 0 0 1.571</pose></include>
+    <include><name>hen_cage_n_b_L4_10</name><uri>model://chicken_white_standing</uri><pose>7.20 18.55 1.90 0 0 1.571</pose></include>
+    <include><name>hen_cage_n_f_L5_2</name><uri>model://chicken_brown_pecking</uri><pose>-5.60 17.85 2.40 0 0 -1.571</pose></include>
+    <include><name>hen_cage_n_f_L5_4</name><uri>model://chicken_brown_pecking</uri><pose>-2.40 17.85 2.40 0 0 -1.571</pose></include>
+    <include><name>hen_cage_n_f_L5_6</name><uri>model://chicken_brown_pecking</uri><pose>0.80 17.85 2.40 0 0 -1.571</pose></include>
+    <include><name>hen_cage_n_f_L5_8</name><uri>model://chicken_brown_pecking</uri><pose>4.00 17.85 2.40 0 0 -1.571</pose></include>
+    <include><name>hen_cage_n_f_L5_10</name><uri>model://chicken_brown_pecking</uri><pose>7.20 17.85 2.40 0 0 -1.571</pose></include>
+    <include><name>hen_cage_n_b_L5_2</name><uri>model://chicken_brown_standing</uri><pose>-5.60 18.55 2.40 0 0 1.571</pose></include>
+    <include><name>hen_cage_n_b_L5_4</name><uri>model://chicken_brown_standing</uri><pose>-2.40 18.55 2.40 0 0 1.571</pose></include>
+    <include><name>hen_cage_n_b_L5_6</name><uri>model://chicken_white_standing</uri><pose>0.80 18.55 2.40 0 0 1.571</pose></include>
+    <include><name>hen_cage_n_b_L5_8</name><uri>model://chicken_brown_standing</uri><pose>4.00 18.55 2.40 0 0 1.571</pose></include>
+    <include><name>hen_cage_n_b_L5_10</name><uri>model://chicken_brown_standing</uri><pose>7.20 18.55 2.40 0 0 1.571</pose></include>
+
+    <!-- FLOOR HENS IN TUNNEL 1 (BROILER / CAGE-FREE FLOCK) -->
+    <include><name>t1_feed_1</name><uri>model://chicken_white_pecking</uri><pose>-9.00 -2.35 0.02 0 0 -1.571</pose></include>
+    <include><name>t1_feed_2</name><uri>model://chicken_brown_pecking</uri><pose>-7.00 -2.85 0.02 0 0 1.571</pose></include>
+    <include><name>t1_feed_3</name><uri>model://chicken_white_pecking</uri><pose>-5.00 -2.35 0.02 0 0 -1.571</pose></include>
+    <include><name>t1_feed_4</name><uri>model://chicken_brown_pecking</uri><pose>-1.00 -2.85 0.02 0 0 1.571</pose></include>
+    <include><name>t1_feed_5</name><uri>model://chicken_white_pecking</uri><pose>3.00 -2.35 0.02 0 0 -1.571</pose></include>
+    <include><name>t1_feed_6</name><uri>model://chicken_brown_pecking</uri><pose>-9.00 2.85 0.02 0 0 -1.571</pose></include>
+    <include><name>t1_feed_7</name><uri>model://chicken_white_pecking</uri><pose>-5.00 2.35 0.02 0 0 1.571</pose></include>
+    <include><name>t1_feed_8</name><uri>model://chicken_brown_pecking</uri><pose>-1.00 2.85 0.02 0 0 -1.571</pose></include>
+    <include><name>t1_feed_9</name><uri>model://chicken_white_pecking</uri><pose>3.00 2.35 0.02 0 0 1.571</pose></include>
+    <include><name>t1_feed_10</name><uri>model://chicken_brown_pecking</uri><pose>7.00 2.85 0.02 0 0 -1.571</pose></include>
+    <include><name>t1_drink_1</name><uri>model://chicken_brown_standing</uri><pose>-8.20 -1.40 0.02 0 0 0.000</pose></include>
+    <include><name>t1_drink_2</name><uri>model://chicken_white_standing</uri><pose>-4.20 -1.40 0.02 0 0 3.140</pose></include>
+    <include><name>t1_drink_3</name><uri>model://chicken_brown_standing</uri><pose>0.80 -1.40 0.02 0 0 0.000</pose></include>
+    <include><name>t1_drink_4</name><uri>model://chicken_white_standing</uri><pose>4.80 -1.40 0.02 0 0 3.140</pose></include>
+    <include><name>t1_drink_5</name><uri>model://chicken_brown_standing</uri><pose>-6.20 1.40 0.02 0 0 0.000</pose></include>
+    <include><name>t1_drink_6</name><uri>model://chicken_white_standing</uri><pose>-2.20 1.40 0.02 0 0 3.140</pose></include>
+    <include><name>t1_drink_7</name><uri>model://chicken_brown_standing</uri><pose>2.80 1.40 0.02 0 0 0.000</pose></include>
+    <include><name>t1_drink_8</name><uri>model://chicken_white_standing</uri><pose>6.80 1.40 0.02 0 0 3.140</pose></include>
+    <include><name>t1_roam_1</name><uri>model://chicken_brown_pecking</uri><pose>-8.00 -3.70 0.02 0 0 0.800</pose></include>
+    <include><name>t1_roam_2</name><uri>model://chicken_white_standing</uri><pose>-5.00 -3.40 0.02 0 0 -1.200</pose></include>
+    <include><name>t1_roam_3</name><uri>model://chicken_brown_resting</uri><pose>-2.00 -3.70 0.02 0 0 2.100</pose></include>
+    <include><name>t1_roam_4</name><uri>model://chicken_white_pecking</uri><pose>1.50 -3.40 0.02 0 0 -0.500</pose></include>
+    <include><name>t1_roam_5</name><uri>model://chicken_brown_standing</uri><pose>4.50 -3.70 0.02 0 0 1.400</pose></include>
+    <include><name>t1_roam_6</name><uri>model://chicken_white_pecking</uri><pose>7.50 -3.40 0.02 0 0 -2.300</pose></include>
+    <include><name>t1_roam_7</name><uri>model://chicken_brown_standing</uri><pose>-7.50 3.40 0.02 0 0 1.100</pose></include>
+    <include><name>t1_roam_8</name><uri>model://chicken_white_resting</uri><pose>-4.50 3.70 0.02 0 0 -1.800</pose></include>
+    <include><name>t1_roam_9</name><uri>model://chicken_brown_pecking</uri><pose>-1.50 3.40 0.02 0 0 0.400</pose></include>
+    <include><name>t1_roam_10</name><uri>model://chicken_white_standing</uri><pose>2.00 3.70 0.02 0 0 -2.000</pose></include>
+    <include><name>t1_roam_11</name><uri>model://chicken_brown_resting</uri><pose>5.00 3.40 0.02 0 0 1.700</pose></include>
+    <include><name>t1_roam_12</name><uri>model://chicken_white_pecking</uri><pose>8.00 3.70 0.02 0 0 -0.900</pose></include>
+    <include><name>t1_paddock_1</name><uri>model://chicken_brown_pecking</uri><pose>-4.00 -8.50 0.00 0 0 0.500</pose></include>
+    <include><name>t1_paddock_2</name><uri>model://chicken_brown_pecking</uri><pose>-1.50 -9.50 0.00 0 0 -1.000</pose></include>
+    <include><name>t1_paddock_3</name><uri>model://chicken_brown_pecking</uri><pose>2.00 -8.00 0.00 0 0 2.300</pose></include>
+    <include><name>t1_paddock_4</name><uri>model://chicken_brown_pecking</uri><pose>4.50 -9.00 0.00 0 0 -2.100</pose></include>
+
+    <!-- ================================================================= -->
+    <!-- NATURAL TREE SHELTERBELT OUTSIDE THE PERIMETER FENCE             -->
+    <!-- All trees planted strictly OUTSIDE the fence (South, North, East, West) -->
+    <!-- ================================================================= -->
+    <include><name>tree_south_1</name><uri>model://pine_tree</uri><pose>-30.00 -19.20 0.00 0 0 2.768</pose></include>
+    <include><name>tree_south_2</name><uri>model://oak_tree</uri><pose>-26.00 -24.96 0.00 0 0 5.721</pose></include>
+    <include><name>tree_south_3</name><uri>model://pine_tree</uri><pose>-22.00 -19.36 0.00 0 0 3.656</pose></include>
+    <include><name>tree_south_4</name><uri>model://oak_tree</uri><pose>-18.00 -20.97 0.00 0 0 0.527</pose></include>
+    <include><name>tree_south_5</name><uri>model://pine_tree</uri><pose>-14.00 -20.40 0.00 0 0 1.487</pose></include>
+    <include><name>tree_south_6</name><uri>model://oak_tree</uri><pose>-10.00 -24.82 0.00 0 0 4.953</pose></include>
+    <include><name>tree_south_7</name><uri>model://pine_tree</uri><pose>-6.00 -22.92 0.00 0 0 3.914</pose></include>
+    <include><name>tree_south_8</name><uri>model://oak_tree</uri><pose>-2.00 -21.31 0.00 0 0 0.933</pose></include>
+    <include><name>tree_south_9</name><uri>model://pine_tree</uri><pose>2.00 -23.90 0.00 0 0 0.719</pose></include>
+    <include><name>tree_south_10</name><uri>model://oak_tree</uri><pose>6.00 -24.91 0.00 0 0 3.057</pose></include>
+    <include><name>tree_south_11</name><uri>model://pine_tree</uri><pose>10.00 -19.21 0.00 0 0 0.405</pose></include>
+    <include><name>tree_south_12</name><uri>model://oak_tree</uri><pose>14.00 -21.75 0.00 0 0 2.926</pose></include>
+    <include><name>tree_south_13</name><uri>model://pine_tree</uri><pose>18.00 -21.39 0.00 0 0 0.558</pose></include>
+    <include><name>tree_south_14</name><uri>model://oak_tree</uri><pose>22.00 -21.53 0.00 0 0 1.693</pose></include>
+    <include><name>tree_south_15</name><uri>model://pine_tree</uri><pose>26.00 -21.66 0.00 0 0 4.048</pose></include>
+    <include><name>tree_south_16</name><uri>model://oak_tree</uri><pose>30.00 -22.11 0.00 0 0 2.231</pose></include>
+    <include><name>tree_north_1</name><uri>model://oak_tree</uri><pose>-30.00 31.99 0.00 0 0 5.862</pose></include>
+    <include><name>tree_north_2</name><uri>model://pine_tree</uri><pose>-26.00 33.22 0.00 0 0 3.329</pose></include>
+    <include><name>tree_north_3</name><uri>model://oak_tree</uri><pose>-22.00 30.62 0.00 0 0 3.191</pose></include>
+    <include><name>tree_north_4</name><uri>model://pine_tree</uri><pose>-18.00 30.53 0.00 0 0 0.903</pose></include>
+    <include><name>tree_north_5</name><uri>model://oak_tree</uri><pose>-14.00 33.34 0.00 0 0 2.370</pose></include>
+    <include><name>tree_north_6</name><uri>model://pine_tree</uri><pose>-10.00 30.83 0.00 0 0 3.690</pose></include>
+    <include><name>tree_north_7</name><uri>model://oak_tree</uri><pose>-6.00 31.48 0.00 0 0 3.500</pose></include>
+    <include><name>tree_north_8</name><uri>model://pine_tree</uri><pose>-2.00 31.37 0.00 0 0 5.886</pose></include>
+    <include><name>tree_north_9</name><uri>model://oak_tree</uri><pose>2.00 35.13 0.00 0 0 6.010</pose></include>
+    <include><name>tree_north_10</name><uri>model://pine_tree</uri><pose>6.00 31.35 0.00 0 0 1.918</pose></include>
+    <include><name>tree_north_11</name><uri>model://oak_tree</uri><pose>10.00 30.74 0.00 0 0 1.738</pose></include>
+    <include><name>tree_north_12</name><uri>model://pine_tree</uri><pose>14.00 35.34 0.00 0 0 1.114</pose></include>
+    <include><name>tree_north_13</name><uri>model://oak_tree</uri><pose>18.00 31.43 0.00 0 0 5.996</pose></include>
+    <include><name>tree_north_14</name><uri>model://pine_tree</uri><pose>22.00 31.43 0.00 0 0 5.237</pose></include>
+    <include><name>tree_north_15</name><uri>model://oak_tree</uri><pose>26.00 30.75 0.00 0 0 2.425</pose></include>
+    <include><name>tree_north_16</name><uri>model://pine_tree</uri><pose>30.00 32.60 0.00 0 0 2.146</pose></include>
+    <include><name>tree_east_1</name><uri>model://oak_tree</uri><pose>30.62 -20.00 0.00 0 0 2.989</pose></include>
+    <include><name>tree_east_2</name><uri>model://pine_tree</uri><pose>30.37 -16.15 0.00 0 0 2.957</pose></include>
+    <include><name>tree_east_3</name><uri>model://oak_tree</uri><pose>30.63 -12.31 0.00 0 0 5.536</pose></include>
+    <include><name>tree_east_4</name><uri>model://pine_tree</uri><pose>27.80 -8.46 0.00 0 0 4.905</pose></include>
+    <include><name>tree_east_5</name><uri>model://oak_tree</uri><pose>30.61 -4.62 0.00 0 0 1.857</pose></include>
+    <include><name>tree_east_6</name><uri>model://pine_tree</uri><pose>25.43 -0.77 0.00 0 0 1.166</pose></include>
+    <include><name>tree_east_7</name><uri>model://oak_tree</uri><pose>27.77 3.08 0.00 0 0 0.750</pose></include>
+    <include><name>tree_east_8</name><uri>model://pine_tree</uri><pose>28.47 6.92 0.00 0 0 5.209</pose></include>
+    <include><name>tree_east_9</name><uri>model://oak_tree</uri><pose>28.14 10.77 0.00 0 0 5.135</pose></include>
+    <include><name>tree_east_10</name><uri>model://pine_tree</uri><pose>29.42 14.62 0.00 0 0 4.026</pose></include>
+    <include><name>tree_east_11</name><uri>model://oak_tree</uri><pose>27.09 18.46 0.00 0 0 4.413</pose></include>
+    <include><name>tree_east_12</name><uri>model://pine_tree</uri><pose>30.57 22.31 0.00 0 0 0.987</pose></include>
+    <include><name>tree_east_13</name><uri>model://oak_tree</uri><pose>31.31 26.15 0.00 0 0 1.691</pose></include>
+    <include><name>tree_east_14</name><uri>model://pine_tree</uri><pose>25.66 30.00 0.00 0 0 5.278</pose></include>
+    <include><name>tree_west_1</name><uri>model://pine_tree</uri><pose>-27.32 -22.00 0.00 0 0 4.984</pose></include>
+    <include><name>tree_west_2</name><uri>model://oak_tree</uri><pose>-29.10 -18.00 0.00 0 0 0.444</pose></include>
+    <include><name>tree_west_3</name><uri>model://pine_tree</uri><pose>-29.43 -14.00 0.00 0 0 0.300</pose></include>
+    <include><name>tree_west_4</name><uri>model://oak_tree</uri><pose>-30.14 -10.00 0.00 0 0 0.239</pose></include>
+    <include><name>tree_west_5</name><uri>model://pine_tree</uri><pose>-28.71 -6.00 0.00 0 0 0.551</pose></include>
+    <include><name>tree_west_6</name><uri>model://oak_tree</uri><pose>-25.94 -2.00 0.00 0 0 4.392</pose></include>
+    <include><name>tree_west_7</name><uri>model://pine_tree</uri><pose>-29.94 1.00 0.00 0 0 5.935</pose></include>
+    <include><name>tree_west_8</name><uri>model://oak_tree</uri><pose>-31.57 15.00 0.00 0 0 1.617</pose></include>
+    <include><name>tree_west_9</name><uri>model://pine_tree</uri><pose>-31.53 19.00 0.00 0 0 2.677</pose></include>
+    <include><name>tree_west_10</name><uri>model://oak_tree</uri><pose>-30.69 23.00 0.00 0 0 2.491</pose></include>
+    <include><name>tree_west_11</name><uri>model://pine_tree</uri><pose>-27.42 27.00 0.00 0 0 5.573</pose></include>
+    <include><name>tree_west_12</name><uri>model://oak_tree</uri><pose>-28.75 31.00 0.00 0 0 5.140</pose></include>
+  </world>
+</sdf>

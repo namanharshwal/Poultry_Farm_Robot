@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<sdf version="1.7">
+  <model name="farm_worker_logistics">
+    <static>true</static>
+    <link name="link">
+      <collision name="collision">
+        <pose>0 0 0.90 0 0 0</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.28</radius>
+            <length>1.80</length>
+          </cylinder>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <pose>0 0 0.02 0.04 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://farm_worker_logistics/meshes/farm_worker_logistics.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+  </model>
+</sdf>

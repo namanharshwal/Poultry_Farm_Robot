@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<sdf version="1.8">
+  <model name="feeder_pan">
+    <static>true</static>
+    <link name="link">
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://feeder_pan/meshes/feeder_pan.obj</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <collision name="collision">
+        <pose>0 0 0.12 0 0 0</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.20</radius>
+            <length>0.25</length>
+          </cylinder>
+        </geometry>
+      </collision>
+    </link>
+  </model>
+</sdf>

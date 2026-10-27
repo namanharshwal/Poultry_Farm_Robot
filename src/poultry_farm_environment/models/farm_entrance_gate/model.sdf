@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+<sdf version="1.8">
+  <model name="farm_entrance_gate">
+    <static>true</static>
+    <link name="link">
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://farm_entrance_gate/meshes/farm_entrance_gate.obj</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <collision name="collision_left_pillar">
+        <pose>0 -3.2 1.9 0 0 0</pose>
+        <geometry><box><size>0.80 0.80 3.8</size></box></geometry>
+      </collision>
+      <collision name="collision_right_pillar">
+        <pose>0 3.2 1.9 0 0 0</pose>
+        <geometry><box><size>0.80 0.80 3.8</size></box></geometry>
+      </collision>
+      <collision name="collision_beam">
+        <pose>0 0 3.8 0 0 0</pose>
+        <geometry><box><size>0.40 6.4 1.4</size></box></geometry>
+      </collision>
+    </link>
+  </model>
+</sdf>

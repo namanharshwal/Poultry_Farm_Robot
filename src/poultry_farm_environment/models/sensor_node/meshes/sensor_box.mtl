@@ -1,0 +1,14 @@
+newmtl box_white
+Ka 0.9 0.9 0.9
+Kd 0.9 0.9 0.9
+Ks 0.3 0.3 0.3
+
+newmtl lcd_screen
+Ka 0.1 0.4 0.2
+Kd 0.1 0.6 0.3
+Ks 0.7 0.7 0.7
+
+newmtl antenna_black
+Ka 0.1 0.1 0.1
+Kd 0.15 0.15 0.15
+Ks 0.2 0.2 0.2

@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<sdf version="1.8">
+  <model name="egg_separation_mill">
+    <static>true</static>
+    <link name="link">
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://egg_separation_mill/meshes/egg_separation_mill.obj</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <collision name="collision_base">
+        <pose>0 0 0.8 0 0 0</pose>
+        <geometry><box><size>4.8 2.4 1.6</size></box></geometry>
+      </collision>
+      <collision name="collision_towers">
+        <pose>-2.2 0 1.5 0 0 0</pose>
+        <geometry><box><size>0.6 2.2 3.0</size></box></geometry>
+      </collision>
+    </link>
+  </model>
+</sdf>

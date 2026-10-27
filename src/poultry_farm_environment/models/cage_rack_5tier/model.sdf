@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<sdf version="1.8">
+  <model name="cage_rack_5tier">
+    <static>true</static>
+    <link name="link">
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://cage_rack_5tier/meshes/cage_rack_5tier.obj</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <collision name="collision_main">
+        <pose>0 0 1.42 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>4.0 1.15 2.85</size>
+          </box>
+        </geometry>
+      </collision>
+    </link>
+  </model>
+</sdf>

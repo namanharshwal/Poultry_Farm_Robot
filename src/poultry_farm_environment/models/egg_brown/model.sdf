@@ -1,0 +1,33 @@
+<?xml version="1.0" ?>
+<sdf version="1.8">
+  <model name="egg_brown">
+    <static>true</static>
+    <link name="link">
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://egg_brown/meshes/egg_brown.obj</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <ambient>1 1 1 1</ambient>
+          <diffuse>1 1 1 1</diffuse>
+          <specular>0.25 0.25 0.25 1</specular>
+          <pbr>
+            <metal>
+              <albedo_map>model://egg_brown/materials/textures/eggshell_brown.png</albedo_map>
+              <roughness>0.35</roughness>
+              <metalness>0.0</metalness>
+            </metal>
+          </pbr>
+        </material>
+      </visual>
+      <collision name="collision">
+        <pose>0 0 0.029 0 0 0</pose>
+        <geometry>
+          <sphere><radius>0.022</radius></sphere>
+        </geometry>
+      </collision>
+    </link>
+  </model>
+</sdf>

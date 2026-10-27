@@ -1,0 +1,30 @@
+<?xml version="1.0" ?>
+<sdf version="1.8">
+  <model name="sky_dome_clouds_sun">
+    <static>true</static>
+    <link name="link">
+      <visual name="sky_dome_visual">
+        <cast_shadows>false</cast_shadows>
+        <geometry>
+          <mesh>
+            <uri>model://sky_dome_clouds_sun/meshes/sky_dome.obj</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <ambient>1.0 1.0 1.0 1.0</ambient>
+          <diffuse>1.0 1.0 1.0 1.0</diffuse>
+          <specular>0.0 0.0 0.0 1.0</specular>
+          <emissive>0.88 0.90 0.95 1.0</emissive>
+          <pbr>
+            <metal>
+              <albedo_map>materials/textures/sky_clouds_sun.png</albedo_map>
+              <emissive_map>materials/textures/sky_clouds_sun.png</emissive_map>
+              <roughness>1.0</roughness>
+              <metalness>0.0</metalness>
+            </metal>
+          </pbr>
+        </material>
+      </visual>
+    </link>
+  </model>
+</sdf>
