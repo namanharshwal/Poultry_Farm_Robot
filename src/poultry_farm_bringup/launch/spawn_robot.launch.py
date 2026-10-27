@@ -3,6 +3,7 @@ from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration, Command
+from launch_ros.parameter_descriptions import ParameterValue
 from launch_ros.actions import Node
 
 
@@ -16,8 +17,8 @@ def generate_launch_description():
     z_pose = LaunchConfiguration('z', default='0.20')
     yaw_pose = LaunchConfiguration('yaw', default='0.0')
 
-    # Process Xacro to Robot Description
-    doc = Command(['xacro ', xacro_file])
+    # Process Xacro to Robot Description as string ParameterValue
+    doc = ParameterValue(Command(['xacro ', xacro_file]), value_type=str)
 
     # Robot State Publisher Node
     node_robot_state_publisher = Node(

@@ -707,5 +707,12 @@
     <include><name>tree_west_10</name><uri>model://oak_tree</uri><pose>-30.69 23.00 0.00 0 0 2.491</pose></include>
     <include><name>tree_west_11</name><uri>model://pine_tree</uri><pose>-27.42 27.00 0.00 0 0 5.573</pose></include>
     <include><name>tree_west_12</name><uri>model://oak_tree</uri><pose>-28.75 31.00 0.00 0 0 5.140</pose></include>
+
+    <!-- AgriBot-AMR Mobile Robot in Barn Tunnel 1 -->
+    <include>
+      <name>poultry_bot</name>
+      <uri>model://poultry_bot</uri>
+      <pose>-8.0 0.0 0.15 0 0 0</pose>
+    </include>
   </world>
 </sdf>
